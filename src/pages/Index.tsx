@@ -6,23 +6,11 @@ import BetPanel from '@/components/BetPanel';
 import Footer from '@/components/Footer';
 import { cn } from '@/lib/utils';
 import { useWallet } from '@/lib/walletUtils';
-import GameSidebar from '@/components/GameSidebar';
-import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 
 const Index = () => {
   const { walletInfo } = useWallet();
   const [gameSelected, setGameSelected] = useState(false);
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
-  
-  // Game list
-  const games = [
-    { title: "Game 1" },
-    { title: "Game 2" },
-    { title: "Game 3" },
-    { title: "Game 4" },
-    { title: "Game 5" },
-  ];
   
   // Add a subtle parallax effect on scroll
   useEffect(() => {
@@ -78,63 +66,51 @@ const Index = () => {
                   Featured Games
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {games.slice(0, 3).map((game, index) => (
-                    <GamePlaceholder 
-                      key={game.title}
-                      title={game.title} 
-                      index={index} 
-                      onSelect={() => handleGameSelect(game.title)}
-                    />
-                  ))}
+                  <GamePlaceholder 
+                    title="Game 1" 
+                    index={0} 
+                    onSelect={() => handleGameSelect("Game 1")}
+                  />
+                  <GamePlaceholder 
+                    title="Game 2" 
+                    index={1} 
+                    onSelect={() => handleGameSelect("Game 2")}
+                  />
+                  <GamePlaceholder 
+                    title="Game 3" 
+                    index={2} 
+                    onSelect={() => handleGameSelect("Game 3")}
+                  />
                 </div>
               </div>
             </div>
           </section>
         ) : (
-          // Game Layout with Sidebar - After Game Selection
-          <SidebarProvider defaultOpen={true}>
-            <section className="py-20 px-4 md:px-6 min-h-screen">
-              <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
-                <div className="flex h-full">
-                  {/* Game Sidebar */}
-                  <GameSidebar 
-                    games={games} 
-                    selectedGame={selectedGame} 
-                    onGameSelect={handleGameSelect}
-                  />
-                  
-                  {/* Main Game Area */}
-                  <SidebarInset>
-                    <ResizablePanelGroup direction="horizontal" className="w-full h-full">
-                      {/* Left Column - Bet Panel */}
-                      <ResizablePanel defaultSize={30} minSize={25} maxSize={40}>
-                        <div className="h-full p-2">
-                          <BetPanel />
-                        </div>
-                      </ResizablePanel>
-                      
-                      {/* Resizable handle */}
-                      <ResizableHandle withHandle />
-                      
-                      {/* Right Column - Game Area */}
-                      <ResizablePanel defaultSize={70}>
-                        <div className="h-full glass-card rounded-xl overflow-hidden p-4 flex items-center justify-center">
-                          <div className="text-center">
-                            <h2 className="text-3xl font-bold text-tcore-blue mb-4">
-                              {selectedGame}
-                            </h2>
-                            <p className="text-gray-400">
-                              Game content will load here
-                            </p>
-                          </div>
-                        </div>
-                      </ResizablePanel>
-                    </ResizablePanelGroup>
-                  </SidebarInset>
+          // Two-Column Layout - After Game Selection
+          <section className="py-20 px-4 md:px-6 min-h-screen">
+            <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 h-full">
+                {/* Left Column - Bet Panel */}
+                <div className="md:col-span-2 h-full">
+                  <BetPanel />
+                </div>
+                
+                {/* Right Column - Game Area */}
+                <div className="md:col-span-3 h-full flex items-center justify-center glass-card rounded-xl overflow-hidden">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <h2 className="text-3xl font-bold text-tcore-blue mb-4">
+                        {selectedGame}
+                      </h2>
+                      <p className="text-gray-400">
+                        Game content will load here
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </section>
-          </SidebarProvider>
+            </div>
+          </section>
         )}
       </main>
       
