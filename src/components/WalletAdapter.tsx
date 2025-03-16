@@ -41,7 +41,7 @@ const WalletAdapter = () => {
         ) : (
           <Wallet className="h-4 w-4" />
         )}
-        Connect MetaMask
+        Connect Wallet
       </Button>
     );
   }
@@ -57,12 +57,12 @@ const WalletAdapter = () => {
       >
         <Wallet className="h-5 w-5 text-tcore-blue" />
         <div className="flex flex-col">
-          <span className="text-xs text-gray-400">MetaMask</span>
+          <span className="text-xs text-gray-400">Wallet</span>
           <span className="font-medium">{walletInfo.address}</span>
         </div>
         <div className="flex flex-col items-end ml-2">
           <span className="text-xs text-gray-400">Balance</span>
-          <span className="font-medium text-tcore-blue">{walletInfo.balance} TCORE</span>
+          <span className="font-medium text-tcore-blue">{walletInfo.balance.toFixed(4)} TCORE</span>
         </div>
         {isDropdownOpen ? (
           <ChevronUp className="h-5 w-5 text-gray-400" />
