@@ -42,8 +42,8 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="flex-1">
-        {!walletInfo.isConnected ? (
-          // Welcome Screen - Before Wallet Connection
+        {!gameSelected ? (
+          // Welcome Screen - Before Game Selection
           <section className="relative h-screen flex items-center justify-center overflow-hidden">
             {/* Background blur effect */}
             <div 
@@ -66,67 +66,47 @@ const Index = () => {
                   Featured Games
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <GamePlaceholder title="Game 1" index={0} />
-                  <GamePlaceholder title="Game 2" index={1} />
-                  <GamePlaceholder title="Game 3" index={2} />
+                  <GamePlaceholder 
+                    title="Game 1" 
+                    index={0} 
+                    onSelect={() => handleGameSelect("Game 1")}
+                  />
+                  <GamePlaceholder 
+                    title="Game 2" 
+                    index={1} 
+                    onSelect={() => handleGameSelect("Game 2")}
+                  />
+                  <GamePlaceholder 
+                    title="Game 3" 
+                    index={2} 
+                    onSelect={() => handleGameSelect("Game 3")}
+                  />
                 </div>
               </div>
             </div>
           </section>
         ) : (
-          // Two-Column Layout - After Wallet Connection
+          // Two-Column Layout - After Game Selection
           <section className="py-20 px-4 md:px-6 min-h-screen">
             <div className="max-w-7xl mx-auto h-[calc(100vh-12rem)]">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-6 h-full">
-                {/* Left Column - Bet Panel (only shown after game selection) */}
-                {gameSelected && (
-                  <div className="md:col-span-2 h-full">
-                    <BetPanel />
-                  </div>
-                )}
+                {/* Left Column - Bet Panel */}
+                <div className="md:col-span-2 h-full">
+                  <BetPanel />
+                </div>
                 
-                {/* Right Column - Game Selection or Game Area */}
-                <div className={cn(
-                  "h-full flex items-center justify-center glass-card rounded-xl overflow-hidden",
-                  gameSelected ? "md:col-span-3" : "md:col-span-5"
-                )}>
-                  {!gameSelected ? (
-                    // Game selection area
-                    <div className="text-center p-8">
-                      <h2 className="text-2xl font-bold mb-4 text-tcore-blue">Select a Game</h2>
-                      <p className="text-gray-400">Click on one of the games below to play</p>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
-                        <GamePlaceholder 
-                          title="Game 1" 
-                          index={0} 
-                          onSelect={() => handleGameSelect("Game 1")}
-                        />
-                        <GamePlaceholder 
-                          title="Game 2" 
-                          index={1} 
-                          onSelect={() => handleGameSelect("Game 2")}
-                        />
-                        <GamePlaceholder 
-                          title="Game 3" 
-                          index={2} 
-                          onSelect={() => handleGameSelect("Game 3")}
-                        />
-                      </div>
+                {/* Right Column - Game Area */}
+                <div className="md:col-span-3 h-full flex items-center justify-center glass-card rounded-xl overflow-hidden">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <h2 className="text-3xl font-bold text-tcore-blue mb-4">
+                        {selectedGame}
+                      </h2>
+                      <p className="text-gray-400">
+                        Game content will load here
+                      </p>
                     </div>
-                  ) : (
-                    // Game area - will be replaced with actual game content later
-                    <div className="w-full h-full flex items-center justify-center">
-                      <div className="text-center">
-                        <h2 className="text-3xl font-bold text-tcore-blue mb-4">
-                          {selectedGame}
-                        </h2>
-                        <p className="text-gray-400">
-                          Game content will load here
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>

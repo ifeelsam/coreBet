@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
-import { useWallet } from '@/lib/walletUtils';
 
 interface GamePlaceholderProps {
   title: string;
@@ -12,14 +11,8 @@ interface GamePlaceholderProps {
 
 const GamePlaceholder = ({ title, index, onSelect }: GamePlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { walletInfo } = useWallet();
   
   const handleClick = () => {
-    if (!walletInfo.isConnected) {
-      toast.error('Please connect your wallet first');
-      return;
-    }
-    
     toast.info(`${title} selected!`, {
       description: "Game interface will appear in the main area."
     });
