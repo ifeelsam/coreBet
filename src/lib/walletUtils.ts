@@ -1,7 +1,7 @@
 
 import { useAccount, useBalance, useConnect, useDisconnect } from 'wagmi';
 import { toast } from 'sonner';
-import { InjectedConnector } from 'wagmi/connectors';
+import { injected } from 'wagmi/connectors';
 
 // Interface for wallet info
 export interface WalletInfo {
@@ -30,7 +30,7 @@ export const useWallet = () => {
 
   const handleConnect = async () => {
     try {
-      connect({ connector: new InjectedConnector() });
+      connect({ connector: injected() });
       toast.success('Wallet connected successfully!');
     } catch (error) {
       console.error('Failed to connect wallet:', error);
