@@ -7,9 +7,10 @@ import { useWallet } from '@/lib/walletUtils';
 interface GamePlaceholderProps {
   title: string;
   index: number;
+  onSelect?: () => void;
 }
 
-const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
+const GamePlaceholder = ({ title, index, onSelect }: GamePlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const { walletInfo } = useWallet();
   
@@ -22,6 +23,11 @@ const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
     toast.info(`${title} selected!`, {
       description: "Game interface will appear in the main area."
     });
+    
+    // Call the onSelect callback if provided
+    if (onSelect) {
+      onSelect();
+    }
   };
   
   // Calculate animation delay based on index
