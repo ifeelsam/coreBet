@@ -4,10 +4,13 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { useWallet } from '@/lib/walletUtils';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, SignalHigh, SignalMedium, SignalLow } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 
 const BetPanel = () => {
   const [betAmount, setBetAmount] = useState<string>('');
+  const [difficulty, setDifficulty] = useState<string>('medium');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { walletInfo } = useWallet();
   
@@ -40,23 +43,62 @@ const BetPanel = () => {
     // Simulate API call
     setTimeout(() => {
       toast.success('Bet placed successfully!', {
-        description: `You've placed a bet of ${betAmount} TCORE`
+        description: `You've placed a ${difficulty} difficulty bet of ${betAmount} TCORE`
       });
       setBetAmount('');
       setIsSubmitting(false);
     }, 1500);
   };
   
-  // Calculate potential return (for demo purposes: 2x multiplier)
-  const potentialReturn = betAmount ? parseFloat(betAmount) * 2 : 0;
+  // Calculate potential return (based on difficulty level)
+  const multipliers = {
+    easy: 1.5,
+    medium: 2,
+    hard: 3
+  };
+  
+  const selectedMultiplier = multipliers[difficulty as keyof typeof multipliers] || 2;
+  const potentialReturn = betAmount ? parseFloat(betAmount) * selectedMultiplier : 0;
 
   return (
-    <div className="glass-card rounded-xl p-6 md:p-8 max-w-md w-full mx-auto animate-slide-up">
+    <div className="glass-card rounded-xl p-6 md:p-8 w-full animate-slide-up h-full overflow-auto">
       <h2 className="text-2xl font-bold mb-6 font-montserrat tracking-tight text-center">
         Place Your Bet
       </h2>
       
       <div className="space-y-6">
+        {/* Difficulty selection */}
+        <div>
+          <label 
+            htmlFor="difficulty" 
+            className="block text-sm font-medium mb-2 text-gray-300"
+          >
+            Difficulty Level
+          </label>
+          <Select 
+            value={difficulty} 
+            onValueChange={setDifficulty}
+          >
+            <SelectTrigger id="difficulty" className="w-full bg-black/30 border-white/10">
+              <SelectValue placeholder="Select difficulty" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="easy" className="flex items-center gap-2">
+                <SignalLow className="h-4 w-4 text-green-400" />
+                <span>Easy (1.5x)</span>
+              </SelectItem>
+              <SelectItem value="medium" className="flex items-center gap-2">
+                <SignalMedium className="h-4 w-4 text-yellow-400" />
+                <span>Medium (2x)</span>
+              </SelectItem>
+              <SelectItem value="hard" className="flex items-center gap-2">
+                <SignalHigh className="h-4 w-4 text-red-400" />
+                <span>Hard (3x)</span>
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
         <div>
           <label 
             htmlFor="betAmount" 
@@ -65,7 +107,7 @@ const BetPanel = () => {
             Bet Amount (TCORE)
           </label>
           <div className="relative">
-            <input
+            <Input
               id="betAmount"
               type="text"
               value={betAmount}

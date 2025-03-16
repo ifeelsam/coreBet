@@ -41,7 +41,7 @@ const WalletAdapter = () => {
         ) : (
           <Wallet className="h-4 w-4" />
         )}
-        Connect Wallet
+        Connect MetaMask
       </Button>
     );
   }
@@ -57,7 +57,7 @@ const WalletAdapter = () => {
       >
         <Wallet className="h-5 w-5 text-tcore-blue" />
         <div className="flex flex-col">
-          <span className="text-xs text-gray-400">Wallet</span>
+          <span className="text-xs text-gray-400">MetaMask</span>
           <span className="font-medium">{walletInfo.address}</span>
         </div>
         <div className="flex flex-col items-end ml-2">

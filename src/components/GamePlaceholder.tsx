@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { useWallet } from '@/lib/walletUtils';
 
 interface GamePlaceholderProps {
   title: string;
@@ -10,10 +11,16 @@ interface GamePlaceholderProps {
 
 const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const { walletInfo } = useWallet();
   
   const handleClick = () => {
-    toast.info(`${title} coming soon!`, {
-      description: "This game is currently under development. Check back later!"
+    if (!walletInfo.isConnected) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
+    
+    toast.info(`${title} selected!`, {
+      description: "Game interface will appear in the main area."
     });
   };
   
@@ -24,7 +31,7 @@ const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
     <div 
       className={cn(
         "glass-card rounded-xl overflow-hidden relative cursor-pointer group",
-        "h-64 md:h-80 flex flex-col items-center justify-center",
+        "h-40 md:h-48 flex flex-col items-center justify-center",
         "opacity-0 animate-blur-in"
       )}
       style={{ animationDelay }}
@@ -49,18 +56,18 @@ const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
         )}
       />
       
-      <div className="text-3xl font-bold mb-2 font-montserrat tracking-tight">
+      <div className="text-2xl font-bold mb-2 font-montserrat tracking-tight">
         {title}
       </div>
       
       <div 
         className={cn(
-          "px-4 py-2 bg-tcore-blue/10 rounded-full text-sm text-tcore-blue",
+          "px-3 py-1 bg-tcore-blue/10 rounded-full text-xs text-tcore-blue",
           "border border-tcore-blue/30 uppercase tracking-wider font-medium",
           "transition-all duration-300"
         )}
       >
-        Coming Soon
+        Select Game
       </div>
       
       {/* Hover message */}
@@ -70,15 +77,15 @@ const GamePlaceholder = ({ title, index }: GamePlaceholderProps) => {
           "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         )}
       >
-        <div className="text-center px-6">
-          <p className="text-lg font-medium mb-3">Game under development</p>
+        <div className="text-center px-4">
+          <p className="text-sm font-medium mb-2">Click to select</p>
           <span 
             className={cn(
-              "px-4 py-2 bg-tcore-blue text-tcore-dark-text rounded-lg",
-              "font-medium inline-block"
+              "px-3 py-1 bg-tcore-blue text-tcore-dark-text rounded-lg",
+              "text-xs font-medium inline-block"
             )}
           >
-            View Details
+            Play {title}
           </span>
         </div>
       </div>
