@@ -4,6 +4,7 @@ import { useWallet } from '@/lib/walletUtils';
 import { Wallet, ChevronDown, ChevronUp, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { coreDaoTestnet } from '@/lib/wagmi';
 
 const WalletAdapter = () => {
   const { walletInfo, isLoading, connect, disconnect } = useWallet();
@@ -46,6 +47,8 @@ const WalletAdapter = () => {
     );
   }
 
+  const isTestnet = walletInfo.chainId === coreDaoTestnet.id;
+
   return (
     <div className="relative">
       <div 
@@ -62,7 +65,12 @@ const WalletAdapter = () => {
         </div>
         <div className="flex flex-col items-end ml-2">
           <span className="text-xs text-gray-400">Balance</span>
-          <span className="font-medium text-tcore-blue">{walletInfo.balance.toFixed(4)} TCORE</span>
+          <div className="flex items-center">
+            <span className="font-medium text-tcore-blue">{walletInfo.balance.toFixed(4)} CORE</span>
+            {isTestnet && (
+              <span className="ml-1 text-xs px-1 bg-yellow-500/20 text-yellow-500 rounded">Testnet</span>
+            )}
+          </div>
         </div>
         {isDropdownOpen ? (
           <ChevronUp className="h-5 w-5 text-gray-400" />
