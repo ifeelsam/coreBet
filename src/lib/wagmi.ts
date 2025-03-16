@@ -1,14 +1,13 @@
 
 import { http, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { type Chain } from '@wagmi/core';
 import { QueryClient } from '@tanstack/react-query';
 
 // Initialize QueryClient
 export const queryClient = new QueryClient();
 
 // Define CoreDAO mainnet chain
-export const coreDao: Chain = {
+export const coreDao = {
   id: 1116,
   name: 'CoreDAO',
   nativeCurrency: {
@@ -33,7 +32,7 @@ export const coreDao: Chain = {
 };
 
 // Define CoreDAO testnet chain
-export const coreDaoTestnet: Chain = {
+export const coreDaoTestnet = {
   id: 1115,
   name: 'CoreDAO Testnet',
   nativeCurrency: {
