@@ -1,6 +1,7 @@
 
-import { http, createConfig, Chain } from 'wagmi';
+import { http, createConfig } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
+import { type Chain } from '@wagmi/core';
 import { QueryClient } from '@tanstack/react-query';
 
 // Initialize QueryClient
